@@ -1,0 +1,10 @@
+[package]
+name = "libnetrs"
+version = "1.0.0"
+edition = "2021"
+description = "Simple Rust library to simplify networking (learning purposes)"
+license = "MIT"
+authors = ["itsgerliz"]
+
+[dependencies]
+log = "0.4.23"
