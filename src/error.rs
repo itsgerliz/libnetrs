@@ -1,20 +1,19 @@
 use std::io::Error;
 use std::process::exit;
-use log::error;
 
-enum NetOpResult {
-	Success,
+pub enum NetOpResult<V> {
+	Success(V),
 	Failure(Error)
 }
 
-impl NetOpResult {
-	fn abort(&self, exit_code: i32) {
+impl <V> NetOpResult<V> {
+	// Checks the enum exposing two different cases:
+	// Success is found -> Consume the variant and return the inner value as reference
+	// Failure is found -> Terminate the process with specified exit code 
+	fn check(&self, exit_code: i32) -> &V {
 		match self {
-			NetOpResult::Failure(err) => {
-				error!("Error: {}", err);
-				exit(exit_code);
-			}
-			_ => ()
+			NetOpResult::Success(value) => value,
+			NetOpResult::Failure(_) => exit(exit_code),
 		}
 	}
 }
